@@ -28,7 +28,7 @@ def check_output(command: str) -> str:
     return raw_result_command.decode(encoding_result)
 
 
-def list_running_hosts():
+def list_running_hosts() -> list:
     """Возвращает информацию о хостах"""
     command = "vagrant status --machine-readable"
     data = check_output(command)
@@ -40,7 +40,7 @@ def list_running_hosts():
     
     return hosts
     
-def get_host_details(host):
+def get_host_details(host: str):
     """Выводит инофрмацию о хостах"""
     command = f"vagrant ssh-config {host}"
     p = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
