@@ -12,7 +12,7 @@ import paramiko
 
 
 def parse_args() -> argparse.Namespace:
-    """Парсинг аргументов"""
+    """Парсинг аргументов командной строки"""
     parser = argparse.ArgumentParser(description="Сценарий динамического реестра Vagrant")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--list', action='store_true')
@@ -21,6 +21,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def check_output(command: str) -> str:
+    """Выполняет переданную команду в командной оболочке и возвращает результат"""
     command = command.split(' ')
     raw_result_command = subprocess.check_output(command).rstrip()
     encoding_result = chardet.detect(raw_result_command)['encoding']
@@ -28,6 +29,7 @@ def check_output(command: str) -> str:
 
 
 def list_running_hosts():
+    """Возвращает информацию о хостах"""
     command = "vagrant status --machine-readable"
     data = check_output(command)
     hosts = []
@@ -39,6 +41,7 @@ def list_running_hosts():
     return hosts
     
 def get_host_details(host):
+    """Выводит инофрмацию о хостах"""
     command = f"vagrant ssh-config {host}"
     p = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     config = paramiko.SSHConfig()
